@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
+import CrossBorderGoods from '../components/page/CrossBorderGoods.vue'
+import CrossBorderInventory from '../components/page/CrossBorderInventory.vue'
+import LeadingIn from '../components/page/LeadingIn.vue'
+import LeadingOut from '../components/page/leadingOut.vue'
 Vue.use(Router);
 
 export default new Router({
@@ -18,6 +21,30 @@ export default new Router({
                     path: '/dashboard',
                     component: resolve => require(['../components/page/Dashboard.vue'], resolve),
                     meta: { title: '系统首页' }
+                },
+                // 跨境购商品导入
+                {
+                    path: '/CrossBorderGoods',
+                    component: CrossBorderGoods,
+                    meta: { title: '跨境购商品导入' }
+                },
+                // 跨境购库存导入
+                {
+                    path: '/CrossBorderInventory',
+                    component: CrossBorderInventory,
+                    meta: { title: '跨境购库存导入' }
+                },
+                // 一键代发（导入）
+                {
+                    path: '/LeadingIn',
+                    component: LeadingIn,
+                    meta: { title: '一键代发（导入）' }
+                },
+                // 一键代发（导出）
+                {
+                    path: '/LeadingOut',
+                    component: LeadingOut,
+                    meta: { title: '一键代发（导出）' }
                 },
                 {
                     path: '/table',

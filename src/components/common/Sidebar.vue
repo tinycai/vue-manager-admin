@@ -36,6 +36,29 @@
                         title: '系统首页'
                     },
                     {
+                        icon: 'el-icon-edit-outline',
+                        index: 'order',
+                        title: '待处理订单',
+                        subs: [
+                             {
+                                index: 'crossBorderGoods',
+                                title: '跨境购商品导入'
+                            },
+                             {
+                                index: 'crossBorderInventory',
+                                title: '跨境购库存导入'
+                            },
+                            {
+                                index: 'leadingIn',
+                                title: '一键代发(导入)'
+                            },
+                            {
+                                index: 'leadingOut',
+                                title: '一键代发(导出)'
+                            }
+                        ]
+                    },
+                    {
                         icon: 'el-icon-tickets',
                         index: 'table',
                         title: '基础表格'
