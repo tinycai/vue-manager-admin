@@ -3,8 +3,36 @@
         <router-view></router-view>
     </div>
 </template>
-<style>
+<style lang="less">
+    /* @import "./assets/less/main.less"; */
     @import "../static/css/main.css";
     @import "../static/css/color-dark.css";     /*深色主题*/
     /*@import "../static/css/theme-green/color-green.css";   浅绿色主题*/
+    
+//适配不同屏幕，，，，确定设计图的大小。750， 商量好：设计图分成15份， 1rem = 50px
+//320 360 375 384 400 414 424 480  484 540 720 750
+.adapter(@deviceWidth){
+  @media (min-width: @deviceWidth) {
+    html {
+      font-size: round(@deviceWidth/37, 2);
+    }
+  }
+}
+
+.adapter(320px);
+.adapter(360px);
+.adapter(375px);
+.adapter(384px);
+.adapter(400px);
+.adapter(414px);
+.adapter(424px);
+.adapter(480px);
+.adapter(540px);
+.adapter(720px);
+.adapter(750px);
+.adapter(768px);
+.adapter(992px);
+.adapter(1200px);
+
+
 </style>

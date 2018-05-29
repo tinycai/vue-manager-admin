@@ -19,9 +19,9 @@
             <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </div>
-      </div>
+    </div>
 
-
+    <!-- 分页 -->
     <div class="inventory_add_pagination">
       <!-- 添加按钮 -->
       <div class="inventory_add">
@@ -48,63 +48,67 @@
         :data="tableData"
         border
         stripe
+        max-height="250"
         :default-sort = "{prop: 'date', order: 'descending'}"
-        style="width: 100%">
+        style="width: 100%"
+       >
         <el-table-column
         type="selection"
         width="55">
         </el-table-column>
-        <el-table-column
-          fixed
-          sortable
-          prop="date"
-          label="日期"
-          width="150">
+        <el-table-column fixed sortable label="订单号" width="150">
+          <template slot-scope="scope">
+            <span style="color:#409EFF;border-bottom:1px solid #409EFF;cursor: pointer;" @click="orderDetail(scope.row.orderNum)">{{ scope.row.orderNum }}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="姓名"
-          sortable
+          prop="orderSrc"
+          label="订单来源"
           width="120">
         </el-table-column>
         <el-table-column
-          prop="logo"
-          label="品牌"
+          prop="status"
+          label="状态"
           sortable
           width="120">
         </el-table-column>
         <el-table-column
-          prop="supplier"
-          label="供应商"
+          prop="enterprise"
+          label="企业"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="buyer"
+          label="买方"
+          width="120">
+        </el-table-column>
+        <el-table-column
           sortable
-          width="120">
+          prop="orderDate"
+          label="订单日期"
+          width="180">
         </el-table-column>
         <el-table-column
-          prop="province"
-          label="省份"
-          width="120">
+          sortable
+          prop="totalAmount"
+          label="总金额 "
+          width="100">
         </el-table-column>
         <el-table-column
-          prop="city"
-          label="市区"
-          width="120">
+          prop="receive"
+          label="收货方"
+          width="220">
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="地址"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          prop="zip"
-          label="邮编"
-          width="120">
+          prop="payer"
+          label="付款方"
+          width="220">
         </el-table-column>
         <el-table-column
           fixed="right"
           label="操作"
           width="100">
           <template slot-scope="scope">
-            <el-button type="text" icon="el-icon-tickets" class="inventory_tab_btn" @click="dialogDetail = true"></el-button>
             <el-button type="text" icon="el-icon-edit" class="inventory_tab_btn" @click="dialogEditor = true"></el-button>
             <el-button type="text" icon="el-icon-delete" class="inventory_tab_btn" @click="dialogDele = true" style="color:#f00"></el-button>
           </template>
@@ -112,58 +116,41 @@
        </el-table>
     </div>
 
-    <!-- 右滑效果 -->
-    <div class="inventory_right_box">
-      <div class="inventory_right"></div>
-    </div>
-    <!-- 详情对话框 -->
-    <el-dialog title="详细信息" :visible.sync="dialogDetail">
-      <el-table :data="gridData">
-        <el-table-column property="date" label="日期"></el-table-column>
-        <el-table-column property="name" label="姓名"></el-table-column>
-        <el-table-column property="province" label="省份"></el-table-column>
-        <el-table-column property="city" label="城市"></el-table-column>
-        <el-table-column property="address" label="地址"></el-table-column>
-        <el-table-column property="zip" label="邮编"></el-table-column>
-        <el-table-column property="logo" label="品牌"></el-table-column>
-        <el-table-column property="supplier" label="供应商"></el-table-column>
-      </el-table>
-    </el-dialog>
     <!-- 编辑对话框 -->
-  <div class="inventory_dialog_editor">
-    <el-dialog title="编辑信息" :visible.sync="dialogEditor">
-      <el-form :model="form">
-        <el-form-item label="日期" :label-width="formLabelWidth">
-          <el-input v-model="form.date" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名" :label-width="formLabelWidth">
-          <el-input v-model="form.name" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="省份" :label-width="formLabelWidth">
-          <el-input v-model="form.province" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="城市" :label-width="formLabelWidth">
-          <el-input v-model="form.city" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="地址" :label-width="formLabelWidth">
-          <el-input v-model="form.address" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="邮编" :label-width="formLabelWidth">
-          <el-input v-model="form.zip" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="品牌" :label-width="formLabelWidth">
-          <el-input v-model="form.logo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="供应商" :label-width="formLabelWidth">
-          <el-input v-model="form.supplier" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogEditor = false">取 消</el-button>
-        <el-button type="primary" @click="dialogEditor = false">提 交</el-button>
-      </div>
-    </el-dialog>
-</div>
+    <div class="inventory_dialog_editor">
+      <el-dialog title="编辑信息" :visible.sync="dialogEditor">
+        <el-form :model="form">
+          <el-form-item label="日期" :label-width="formLabelWidth">
+            <el-input v-model="form.date" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名" :label-width="formLabelWidth">
+            <el-input v-model="form.name" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="省份" :label-width="formLabelWidth">
+            <el-input v-model="form.province" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="城市" :label-width="formLabelWidth">
+            <el-input v-model="form.city" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="地址" :label-width="formLabelWidth">
+            <el-input v-model="form.address" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="邮编" :label-width="formLabelWidth">
+            <el-input v-model="form.zip" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="品牌" :label-width="formLabelWidth">
+            <el-input v-model="form.logo" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="供应商" :label-width="formLabelWidth">
+            <el-input v-model="form.supplier" auto-complete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogEditor = false">取 消</el-button>
+          <el-button type="primary" @click="dialogEditor = false">提 交</el-button>
+        </div>
+      </el-dialog>
+    </div>
     <!-- 删除对话框 -->
     <div class="inventory_dialog_dele">
       <el-dialog
@@ -188,99 +175,42 @@ export default {
       currentPage1: 5,
       tableData: [
         {
-        date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
+        orderNum: '42009',
+        orderSrc: 'T3C_PC',
+        status: '已发货',
+        enterprise: 'T3C',
         address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333,
-        logo: '兰蔻',
-        supplier: '唐三彩国际有限公司'
+        buyer: '张三',
+        orderDate: '2017/11/28 13:00:00',
+        totalAmount: '￥0.00',
+        receive: '曹广红  申滨南路1226号虹桥新地中心A栋9楼 闵行区 上海市 上海市 CN',
+        payer: '曹广红  申滨南路1226号虹桥新地中心A栋9楼 闵行区 上海市 上海市 CN'
         },
         {
-        date: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
+        orderNum: '42010',
+        orderSrc: 'T3C_PC',
+        status: '已发货',
+        enterprise: 'T3C',
         address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333,
-        logo: '兰蔻',
-        supplier: '唐三彩国际有限公司'
+        buyer: '张三',
+        orderDate: '2017/11/28 13:00:00',
+        totalAmount: '￥0.00',
+        receive: '曹广红  申滨南路1226号虹桥新地中心A栋9楼 闵行区 上海市 上海市 CN',
+        payer: '曹广红  申滨南路1226号虹桥新地中心A栋9楼 闵行区 上海市 上海市 CN'
         },
         {
-        date: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
+        orderNum: '42011',
+        orderSrc: 'T3C_PC',
+        status: '已发货',
+        enterprise: 'T3C',
         address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333,
-        logo: '兰蔻',
-        supplier: '唐三彩国际有限公司'
-        },
-        {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333,
-        logo: '兰蔻',
-        supplier: '唐三彩国际有限公司'
-        },
-        {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333,
-        logo: '兰蔻',
-        supplier: '唐三彩国际有限公司'
-        },
-        {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333,
-        logo: '兰蔻',
-        supplier: '唐三彩国际有限公司'
+        buyer: '张三',
+        orderDate: '2017/11/28 13:00:00',
+        totalAmount: '￥0.00',
+        receive: '曹广红  申滨南路1226号虹桥新地中心A栋9楼 闵行区 上海市 上海市 CN',
+        payer: '曹广红  申滨南路1226号虹桥新地中心A栋9楼 闵行区 上海市 上海市 CN'
         }
         ],
-       tableData5: [{
-          id: '12987122',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          id: '12987123',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          id: '12987125',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          id: '12987126',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }],
       currentPage4: 4,
       input5: '',
       select: '',
@@ -297,6 +227,11 @@ export default {
         logo: '兰蔻',
         supplier: '唐三彩国际有限公司'
       }],
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }],
+      value: '',
       form: {
         date: '2016-05-03',
         name: '王小虎',
@@ -307,7 +242,126 @@ export default {
         logo: '兰蔻',
         supplier: '唐三彩国际有限公司'
         },
-      formLabelWidth: '120px'
+      formLabelWidth: '120px',
+      // 销售订单
+      salesOrder: [
+        {
+          title: '企业：',
+          content: 'T3C'
+        },
+        {
+          title: '订单号：',
+          content: '46009'
+        },
+        {
+          title: '订单类型：',
+          content: 'A'
+        },
+        {
+          title: '文档类型：',
+          content: 'Sales Order'
+        },
+        {
+          title: '买方：',
+          content: '张三'
+        },
+        {
+          title: '卖方：',
+          content: 'T3C'
+        },
+        {
+          title: '状态：',
+          content: '已退款'
+        },
+        {
+          title: '服务：',
+          content: ''
+        },
+        {
+          title: '订单来源：',
+          content: '官网PC版'
+        },
+        {
+          title: '订单日期：',
+          content: '2017/11/28 13:00:00'
+        },
+        {
+          title: '请求交货日期：',
+          content: '2017/11/29 13:00:00'
+        }
+      ],
+      // 收货方
+      receive: [
+        {
+          title: '姓名：',
+          content: '曹广红'
+        },
+        {
+          title: '街道：',
+          content: '申滨南路1226号虹桥新地中心A栋9楼'
+        },
+        {
+          title: '省、市、区:',
+          content: '闵行区 上海市 上海市 CN'
+        },
+      ],
+      // 付款方
+       payer: [
+        {
+          title: '姓名：',
+          content: '曹广红'
+        },
+        {
+          title: '街道：',
+          content: '申滨南路1226号虹桥新地中心A栋9楼'
+        },
+        {
+          title: '省、市、区:',
+          content: '闵行区 上海市 上海市 CN'
+        },
+      ],
+      // 收费
+      cost: [
+        {
+          title: '行小计：',
+          num: 1.00
+        },
+        {
+          title: '总费用：',
+          num: 0.00
+        },
+        {
+          title: '总税额：',
+          num: 0.00
+        },
+        {
+          title: '总折扣：',
+          num: 0.00
+        },
+        {
+          title: '总   计：',
+          num: 0.00
+        }
+      ],
+      // 支付信息
+      paymentInfor: [
+        {
+          title: '状态：',
+          content: ''
+        },
+        {
+          title: '类型：',
+          content: '收钱吧'
+        },
+        {
+          title: '已授权：',
+          content: '0.00'
+        },
+        {
+          title: '已付款：',
+          content: '293.00'
+        }
+      ]
     }
   },
    methods: {
@@ -319,7 +373,12 @@ export default {
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
+      },
+      orderDetail (num) {
+        console.log(num)
+        this.$router.push(`OrderDetail/${num}`)
       }
+      
     },
 }
 </script>
@@ -392,12 +451,42 @@ export default {
 /* 右划盒子样式*/ 
 .inventory_right_box {
   position:fixed;
-  width: 200rem/50;
-  height:200rem/50;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.4);
+  top:0;
+  left:0;
+  z-index:150;
+} 
+.inventory_right_box .inventory_right{
+  position:fixed;
+  width: 60%;
+  height:90%;
   right: 0;
   bottom:0;
-  border:1px solid #ccc;
+  border:1px solid #fff;
+  border-radius: 10px;
   z-index:200;
-  background-color: #f00;
+  background-color: #fff;
+  padding: 20px;
 }
+/*详情页卡片*/
+.inventory_tab {
+  margin-top:30rem/37;
+  height:90%;
+}
+.inventory_tab .el-tabs__item {
+  font-size:16px;
+  height:70rem/37;
+  line-height:63rem/37;
+}
+.inventory_card_text>p{
+ font-size:16px;
+ margin-bottom:10px;
+}
+.inventory_card_text_title {
+  color:rgb(132, 134, 138);
+  font-weight:700;
+}
+
 </style>

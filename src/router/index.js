@@ -4,6 +4,7 @@ import CrossBorderGoods from '../components/page/CrossBorderGoods.vue'
 import CrossBorderInventory from '../components/page/CrossBorderInventory.vue'
 import LeadingIn from '../components/page/LeadingIn.vue'
 import LeadingOut from '../components/page/leadingOut.vue'
+import OrderDetail from '../components/page/OrderDetail.vue'
 Vue.use(Router);
 
 export default new Router({
@@ -45,6 +46,12 @@ export default new Router({
                     path: '/LeadingOut',
                     component: LeadingOut,
                     meta: { title: '一键代发（导出）' }
+                },
+                // 订单详情
+                {
+                    path: '/OrderDetail/:id',
+                    component: OrderDetail,
+                    meta: { title: '订单详情'}
                 },
                 {
                     path: '/table',
